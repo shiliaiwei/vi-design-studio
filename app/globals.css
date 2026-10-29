@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vi-canvas: #FAFCFF;
+  --vi-slate: #0F172A;
+  --vi-muted: #64748B;
+  --vi-border: #E2E8F0;
+  --vi-emerald: #10B981;
+  --vi-emerald-dark: #059669;
+  --vi-eager-green: #58CC02;
+  --vi-spark-blue: #1CB0F6;
+  --vi-cyan: #0891B2;
+  --vi-crimson: #FF0050;
+}
+
+body {
+  background-color: var(--vi-canvas);
+  color: var(--vi-slate);
+  font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* VI Tactile Sticker Button Physics */
+.vi-button-primary {
+  background-color: #10B981;
+  color: #FFFFFF;
+  border-radius: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.40);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 4px solid #059669;
+  font-weight: 700;
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vi-button-primary:hover {
+  background-color: #059669;
+  border-bottom-color: #047857;
+}
+
+.vi-button-primary:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+}
+
+.vi-button-eager {
+  background-color: #58CC02;
+  color: #FFFFFF;
+  border-radius: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.40);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 4px solid #46A302;
+  font-weight: 700;
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vi-button-eager:hover {
+  background-color: #46A302;
+}
+
+.vi-button-eager:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+}
+
+.vi-button-spark {
+  background-color: #1CB0F6;
+  color: #FFFFFF;
+  border-radius: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.40);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 4px solid #1899D6;
+  font-weight: 700;
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vi-button-spark:hover {
+  background-color: #1899D6;
+}
+
+.vi-button-spark:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+}
+
+.vi-button-ghost {
+  background-color: #FFFFFF;
+  color: #0F172A;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  border-bottom: 3px solid #CBD5E1;
+  font-weight: 700;
+  transition: all 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vi-button-ghost:hover {
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+}
+
+.vi-button-ghost:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+}
+
+/* VI Frosted Specular Glass Card */
+.vi-glass-card {
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid #E2E8F0;
+  border-top: 1px solid rgba(255, 255, 255, 0.95);
+  border-bottom: 2px solid #CBD5E1;
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vi-glass-card:hover {
+  background-color: #FFFFFF;
+  border-color: #94A3B8;
+  border-bottom-color: #64748B;
+}
+
+/* Monospace Pill Badge */
+.vi-pill {
+  font-family: "SF Mono", "Menlo", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
