@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test": "node scripts/test-local.js",
     "deploy": "opennextjs-cloudflare build && wrangler deploy"
   },
   "dependencies": {
