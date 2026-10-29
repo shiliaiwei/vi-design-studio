@@ -3,135 +3,158 @@
 import React, { useState } from "react";
 
 export default function OfflinePage() {
-  const [isChecking, setIsChecking] = useState(false);
-  const [checkResult, setCheckResult] = useState<string | null>(null);
+  const [isPinging, setIsPinging] = useState(false);
+  const [consoleLog, setConsoleLog] = useState<string | null>(null);
 
-  const handleCheckStatus = () => {
-    setIsChecking(true);
-    setCheckResult(null);
+  const handlePing = () => {
+    setIsPinging(true);
+    setConsoleLog(null);
     setTimeout(() => {
-      setIsChecking(false);
-      setCheckResult("System is currently offline for scheduled maintenance. Please check back later.");
-    }, 800);
+      setIsPinging(false);
+      setConsoleLog("GATEWAY PING: TIMEOUT (503). Core remains offline pending design upgrade completion.");
+    }, 900);
   };
 
   return (
-    <div className="min-h-screen bg-vi-canvas text-vi-slate flex flex-col justify-between selection:bg-vi-slate selection:text-white">
-      {/* Top Header */}
-      <header className="w-full border-b border-vi-border bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden flex flex-col justify-between selection:bg-[#FF0050] selection:text-white">
+      {/* Scanline CRT Overlay */}
+      <div className="pointer-events-none absolute inset-0 vi-scanlines opacity-50 z-10" />
+
+      {/* Subtle Coordinate Grid Lines */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-10 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(#27272a 1px, transparent 1px), linear-gradient(90deg, #27272a 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* Top Cyber Keyline Navigation */}
+      <header className="relative z-20 w-full border-b border-zinc-800 bg-black/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-sticker bg-vi-slate text-white flex items-center justify-center font-mono font-black text-base border-b-2 border-black">
+            <div className="w-9 h-9 bg-white text-black flex items-center justify-center font-mono font-black text-sm border-2 border-[#FF0050]">
               VI
             </div>
             <div>
-              <div className="text-sm font-bold tracking-tight text-vi-slate uppercase">
+              <div className="text-xs sm:text-sm font-mono font-bold tracking-wider text-white uppercase">
                 VI DESIGN STUDIO
               </div>
-              <div className="text-[10px] font-mono text-vi-muted tracking-wider">
-                SRIEVI ENGINEERING STANDARDS
+              <div className="text-[10px] font-mono text-zinc-500 tracking-widest">
+                SRIEVI ARCHITECTURE LAB // 0x503
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <span className="vi-pill bg-amber-50 text-amber-800 border border-amber-200">
-              [ STATUS: OFFLINE ]
+          <div className="flex items-center space-x-3 text-xs font-mono">
+            <div className="flex items-center space-x-2 px-3 py-1 bg-zinc-950 border border-zinc-800 text-zinc-400">
+              <span className="w-2 h-2 bg-[#FF0050] inline-block animate-ping" />
+              <span className="text-[11px] font-bold text-red-500 tracking-wider">
+                [ SIGNAL: LOST ]
+              </span>
+            </div>
+            <span className="hidden sm:inline-block px-2.5 py-1 bg-zinc-900 text-zinc-400 border border-zinc-800 text-[11px]">
+              EDGE: WORKERS
             </span>
           </div>
         </div>
       </header>
 
-      {/* Main Offline Card Container */}
-      <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div className="max-w-2xl w-full bg-white border border-vi-border rounded-glass p-6 sm:p-10 shadow-sm">
-          {/* Status Badge */}
-          <div className="flex items-center space-x-2 mb-4">
-            <span className="vi-pill bg-red-50 text-red-700 border border-red-200">
-              HTTP 503 : SERVICE UNAVAILABLE
-            </span>
-            <span className="text-xs font-mono text-vi-muted">
-              MODE: TEMPORARY OFFLINE
-            </span>
+      {/* Main Complete Dark Glitch Centerpiece */}
+      <main className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-12 text-center">
+        <div className="max-w-5xl w-full flex flex-col items-center">
+          {/* Cyber Terminal Alert Tag */}
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-red-950/70 border border-red-700/80 text-red-400 font-mono text-xs uppercase tracking-widest font-bold mb-4">
+            <span className="w-1.5 h-1.5 bg-red-500 inline-block" />
+            <span>CRITICAL STATUS : SYSTEM OFFLINE // HTTP 503</span>
           </div>
 
-          {/* Heading English & Khmer */}
-          <h1 className="text-2xl sm:text-3xl font-black text-vi-slate uppercase tracking-tight">
-            Service Temporarily Offline
-          </h1>
-          <div className="text-base sm:text-lg font-semibold text-vi-emeraldDark font-sans mt-1">
+          {/* Massive Cyber Glitch Text */}
+          <div className="vi-glitch-wrapper my-2 sm:my-4 select-none">
+            <h1
+              className="vi-glitch-text text-7xl sm:text-9xl md:text-[11rem] lg:text-[14rem] font-black font-mono tracking-tighter uppercase leading-none"
+              data-text="OFFLINE"
+            >
+              OFFLINE
+            </h1>
+          </div>
+
+          {/* Bilingual Heading in Cyan */}
+          <div className="text-xl sm:text-3xl md:text-4xl font-black font-sans text-cyan-400 uppercase tracking-tight mt-1">
             ប្រព័ន្ធផ្អាកដំណើរការបណ្តោះអាសន្ន
           </div>
 
-          {/* Descriptive Content */}
-          <div className="mt-4 space-y-3 text-xs sm:text-sm text-vi-muted leading-relaxed">
-            <p>
-              VI Design Studio services, course discovery modules, and prompt includes libraries are temporarily offline for system maintenance and design refactoring.
-            </p>
-            <p className="font-sans text-slate-600">
-              ទំព័រនេះត្រូវបានផ្អាកដំណើរការជាបណ្តោះអាសន្ន ដើម្បីធ្វើការកែលម្អរចនាសម្ព័ន្ធស្ថាបត្យកម្ម និងការរចនាទម្រង់ប្រព័ន្ធឡើងវិញ។ សេវាកម្មទាំងអស់នឹងត្រឡប់មកដំណើរការវិញក្នុងពេលឆាប់ៗនេះ។
-            </p>
+          <div className="mt-2 text-xs sm:text-sm font-mono text-zinc-400 uppercase tracking-wider max-w-2xl leading-relaxed">
+            SERVICE TEMPORARILY SUSPENDED FOR COMPLETE ARCHITECTURAL REFACTORING & REDESIGN
           </div>
 
-          {/* Telemetry / Maintenance Parameters */}
-          <div className="mt-6 p-4 bg-slate-50 border border-vi-border rounded-sticker font-mono text-xs space-y-2">
-            <div className="text-[10px] uppercase font-bold text-vi-muted tracking-wider border-b border-vi-border pb-1">
-              MAINTENANCE TELEMETRY
-            </div>
-            <div className="flex justify-between items-center py-0.5">
-              <span className="text-vi-muted">Maintenance Code:</span>
-              <span className="font-bold text-vi-slate">MAINT-REDESIGN-2026</span>
-            </div>
-            <div className="flex justify-between items-center py-0.5">
-              <span className="text-vi-muted">Gateway Edge:</span>
-              <span className="font-bold text-vi-slate">Cloudflare Workers Anycast</span>
-            </div>
-            <div className="flex justify-between items-center py-0.5">
-              <span className="text-vi-muted">System State:</span>
-              <span className="font-bold text-amber-700">Offline (Holding Page)</span>
-            </div>
-            <div className="flex justify-between items-center py-0.5">
-              <span className="text-vi-muted">Access Level:</span>
-              <span className="font-bold text-vi-slate">Public Traffic Restricted</span>
-            </div>
+          <div className="mt-1 text-xs sm:text-sm font-sans text-zinc-500 max-w-xl">
+            ទំព័រនេះត្រូវបានផ្អាកដំណើរការទាំងស្រុងជាបណ្តោះអាសន្ន ដើម្បីធ្វើការកែលម្អប្រព័ន្ធ និងការរចនាទម្រង់ឡើងវិញ។
           </div>
 
-          {/* Live Check Status Action */}
-          <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-vi-border">
+          {/* Cyber Diagnostic Console Card */}
+          <div className="mt-8 w-full max-w-2xl bg-zinc-950/90 border border-zinc-800 p-5 text-left font-mono text-xs rounded-none shadow-2xl">
+            <div className="flex items-center justify-between pb-2 mb-3 border-b border-zinc-800 text-[11px] text-zinc-500 tracking-wider">
+              <span>&gt; TERMINAL DIAGNOSTIC LOG</span>
+              <span className="text-red-500 font-bold">[ERR_CONNECTION_REFUSED]</span>
+            </div>
+
+            <div className="space-y-1.5 text-zinc-300 text-[11px] sm:text-xs">
+              <div className="flex items-start space-x-2">
+                <span className="text-zinc-600">[0.001s]</span>
+                <span className="text-red-400">STATE:</span>
+                <span>CORE_HALT_DIRECTIVE active across all public routes.</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-zinc-600">[0.014s]</span>
+                <span className="text-cyan-400">REASON:</span>
+                <span>User requested complete dark offline mode with massive glitch styling.</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-zinc-600">[0.029s]</span>
+                <span className="text-amber-400">GATEWAY:</span>
+                <span>Cloudflare Workers Anycast Node (V8 Isolates).</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-zinc-600">[0.041s]</span>
+                <span className="text-emerald-400">RECOVERY:</span>
+                <span>Standby for design re-dispatch.</span>
+              </div>
+            </div>
+
+            {/* Diagnostic Console Message */}
+            {consoleLog && (
+              <div className="mt-3 pt-3 border-t border-zinc-800 text-amber-400 text-xs">
+                &gt; {consoleLog}
+              </div>
+            )}
+          </div>
+
+          {/* Interactive Reconnect Trigger */}
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               type="button"
-              onClick={handleCheckStatus}
-              disabled={isChecking}
-              className="vi-button-primary px-5 py-2.5 text-xs font-mono uppercase font-bold tracking-wider disabled:opacity-50"
+              onClick={handlePing}
+              disabled={isPinging}
+              className="px-8 py-3.5 bg-zinc-900 hover:bg-zinc-800 text-white font-mono font-bold text-xs uppercase tracking-widest border border-zinc-700 hover:border-cyan-400 transition-all active:translate-y-0.5 disabled:opacity-50"
             >
-              {isChecking ? "[ PINGING EDGE... ]" : "[ CHECK STATUS / ពិនិត្យស្ថានភាព ]"}
+              {isPinging ? "[ PINGING GATEWAY... ]" : "[ PING GATEWAY / ព្យាយាមភ្ជាប់ឡើងវិញ ]"}
             </button>
-
-            <span className="text-[11px] font-mono text-vi-muted text-center sm:text-right">
-              Ref: VI-STUDIO-HOLDING
-            </span>
           </div>
-
-          {/* Feedback message if checked */}
-          {checkResult && (
-            <div
-              role="status"
-              className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-sticker text-xs font-mono text-amber-800"
-            >
-              {checkResult}
-            </div>
-          )}
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-vi-border bg-white py-4">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-vi-muted gap-2">
-          <div>
-            VI DESIGN STUDIO (C) 2026 &mdash; ALL RIGHTS RESERVED
+      {/* Cyber Keyline Footer */}
+      <footer className="relative z-20 w-full border-t border-zinc-800 bg-black/90 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-500 gap-2">
+          <div className="flex items-center space-x-3">
+            <span>VI DESIGN STUDIO (C) 2026</span>
+            <span>//</span>
+            <span className="text-zinc-400">STATUS: TOTAL_DARK_OFFLINE</span>
           </div>
           <div>
-            CONTACT: SRIREVI@TUTA.IO
+            <span>REF: VI-GLITCH-DARK-2026</span>
           </div>
         </div>
       </footer>

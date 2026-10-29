@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VI Design Studio — Component Engineering & Design System",
+  title: "OFFLINE — VI Design Studio",
   description:
-    "Authoritative design system, component engineering lab, and 8-token closed palette engine for VI brand digital products.",
+    "System temporarily offline for architectural refactoring and UI overhaul.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-vi-canvas text-vi-slate antialiased">
+      <body className="min-h-screen bg-black text-white antialiased">
         {children}
       </body>
     </html>
