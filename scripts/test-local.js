@@ -26,6 +26,7 @@ const requiredFiles = [
   'app/layout.tsx',
   'app/page.tsx',
   'app/includes/page.tsx',
+  'app/courses/page.tsx',
   'app/globals.css',
   'components/Header.tsx',
   'components/Hero.tsx',
@@ -39,8 +40,15 @@ const requiredFiles = [
   'components/includes/IncludeCard.tsx',
   'components/includes/IncludeInspector.tsx',
   'components/includes/DomainFilterRibbon.tsx',
+  'components/courses/SectionHeading.tsx',
+  'components/courses/CourseCard.tsx',
+  'components/courses/ProviderCard.tsx',
+  'components/courses/CategoryList.tsx',
+  'components/courses/CourseCatalogueView.tsx',
   'lib/types-includes.ts',
   'lib/includes-data.ts',
+  'lib/types-courses.ts',
+  'lib/courses-data.ts',
   'docs/SYSTEM_DESIGN_AI_AGENTS_SUMMARY.md',
   'tailwind.config.ts',
   'tsconfig.json',
@@ -71,6 +79,18 @@ const uiCodes = ['UI-001', 'UI-002', 'UI-003', 'UI-004', 'UI-005', 'UI-006', 'UI
 for (const code of uiCodes) {
   assert(includesContent.includes(code), `UI Component Include present: ${code}`);
 }
+
+// Check Courses Data Integrity
+console.log("\n--- 2b. Course Catalogue Data Integrity Check ---");
+const coursesContent = fs.readFileSync(path.join(ROOT, 'lib/courses-data.ts'), 'utf8');
+const courseCodes = ['ARCH-401', 'AI-301', 'SEC-302', 'CLOUD-201', 'DB-201', 'AI-101', 'PROD-501', 'K8S-402', 'SEC-501'];
+for (const code of courseCodes) {
+  assert(coursesContent.includes(code), `Course Code present: ${code}`);
+}
+assert(coursesContent.includes('IDT-KH'), "Training Provider present: IDT-KH");
+assert(coursesContent.includes('NCEC'), "Training Provider present: NCEC");
+assert(coursesContent.includes('CSDA'), "Training Provider present: CSDA");
+assert(coursesContent.includes('ASLAB'), "Training Provider present: ASLAB");
 
 // -----------------------------------------------------------------------------
 // Test 3: Zero Emoji & Zero Unicode Symbol Audit
@@ -120,6 +140,7 @@ auditLabels(path.join(ROOT, 'components/includes/IncludesExplorer.tsx'));
 auditLabels(path.join(ROOT, 'components/includes/IncludeInspector.tsx'));
 auditLabels(path.join(ROOT, 'components/includes/UIComponentShowcase.tsx'));
 auditLabels(path.join(ROOT, 'components/ComponentLab.tsx'));
+auditLabels(path.join(ROOT, 'components/courses/CourseCatalogueView.tsx'));
 
 // -----------------------------------------------------------------------------
 // Test 5: TypeScript Compilation Check (tsc --noEmit)

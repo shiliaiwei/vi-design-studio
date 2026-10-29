@@ -24,6 +24,12 @@ export default function Header() {
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-vi-muted">
           <a
+            href="/courses"
+            className="text-vi-sparkBlue font-bold hover:underline py-1"
+          >
+            Course Catalogue
+          </a>
+          <a
             href="/includes"
             className="text-vi-emeraldDark font-bold hover:underline py-1"
           >
