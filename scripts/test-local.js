@@ -51,6 +51,15 @@ const requiredFiles = [
   'lib/types-courses.ts',
   'lib/courses-data.ts',
   'docs/SYSTEM_DESIGN_AI_AGENTS_SUMMARY.md',
+  'README.md',
+  'LICENSE',
+  'CODE_OF_CONDUCT.md',
+  'CONTRIBUTING.md',
+  'SECURITY.md',
+  'CHANGELOG.md',
+  '.github/PULL_REQUEST_TEMPLATE.md',
+  '.github/ISSUE_TEMPLATE/bug_report.md',
+  '.github/ISSUE_TEMPLATE/feature_request.md',
   'tailwind.config.ts',
   'tsconfig.json',
   'package.json',
@@ -106,7 +115,7 @@ function auditEmojis(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       auditEmojis(fullPath);
-    } else if (/\.(tsx|ts|js|jsx|css|jsonc)$/.test(entry.name)) {
+    } else if (/\.(tsx|ts|js|jsx|css|jsonc|md)$/.test(entry.name)) {
       const text = fs.readFileSync(fullPath, 'utf8');
       const match = emojiRegex.exec(text);
       if (match) {
@@ -119,6 +128,22 @@ function auditEmojis(dir) {
 auditEmojis(path.join(ROOT, 'app'));
 auditEmojis(path.join(ROOT, 'components'));
 auditEmojis(path.join(ROOT, 'lib'));
+auditEmojis(path.join(ROOT, 'docs'));
+if (fs.existsSync(path.join(ROOT, '.github'))) {
+  auditEmojis(path.join(ROOT, '.github'));
+}
+
+// Audit root markdown files
+const rootFiles = fs.readdirSync(ROOT);
+for (const rf of rootFiles) {
+  if (rf.endsWith('.md')) {
+    const text = fs.readFileSync(path.join(ROOT, rf), 'utf8');
+    const match = emojiRegex.exec(text);
+    if (match) {
+      assert(false, `Emoji scan: ${rf}`, `Found emoji '${match[0]}'`);
+    }
+  }
+}
 console.log("[PASS] Zero emoji audit completed across all source trees.");
 
 // -----------------------------------------------------------------------------
