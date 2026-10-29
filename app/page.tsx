@@ -23,14 +23,14 @@ export default function Home() {
                 NEW FEATURE
               </span>
               <span className="text-xs font-mono text-vi-muted">
-                10 DOMAINS / 31 INCLUDES
+                11 DOMAINS / 53 INCLUDES
               </span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-vi-slate uppercase tracking-tight">
               System Architecture & UI Includes Library
             </h3>
             <p className="mt-1 text-xs sm:text-sm text-vi-muted max-w-2xl leading-relaxed">
-              Explore 31 modular prompt includes covering the 10 core UI components (Snackbar, Bottom Sheet, Dialog, Bottom Nav, Toggle Switch, Chips, FAB, Card, Dropdown, Tooltip) plus distributed systems, databases, security, and AI agents.
+              Explore 53 modular prompt includes covering the 22 System Design Strategies for Fault Tolerance & Resilience, 10 core UI components (Snackbar, Bottom Sheet, Dialog, Bottom Nav, Toggle Switch, Chips, FAB, Card, Dropdown, Tooltip), plus distributed systems, databases, security, and AI agents.
             </p>
           </div>
 

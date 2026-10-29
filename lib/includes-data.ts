@@ -9,6 +9,13 @@ export const DOMAINS: DomainMeta[] = [
     totalIncludes: 10,
   },
   {
+    id: "fault-tolerance",
+    label: "Fault Tolerance",
+    codePrefix: "RES",
+    description: "22 System Design Strategies for Fault Tolerance, High Availability, and Distributed Resilience.",
+    totalIncludes: 22,
+  },
+  {
     id: "system-architecture",
     label: "System Architecture",
     codePrefix: "ARCH",
@@ -795,5 +802,429 @@ export const INCLUDES_DATA: IncludeItem[] = [
     tags: ["prompt-injection", "jailbreak-defense", "input-sanitization", "canary-token", "ai-safety"],
     format: "markdown",
     keylineIcon: "ShieldIcon",
+  },
+
+  /* ========================================================================= */
+  /* FAULT TOLERANCE & RESILIENCE (22 System Design Strategies)                */
+  /* ========================================================================= */
+  {
+    id: "res-001",
+    code: "RES-001",
+    title: "Redundancy — Eliminate Single Points of Failure",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "High Availability",
+    summary: "Deploy duplicate components across independent failure domains so no single hardware, node, or network failure causes service downtime.",
+    promptText: `## Include: System Redundancy Standard (RES-001)
+- Principle: Eliminate single points of failure (SPOF) across compute, storage, routing, and power.
+- Implementation: Minimum N+1 redundancy for stateless compute nodes; N+2 for distributed consensus quorums.
+- Network Layer: Dual active-active network interfaces with BGP anycast route multipathing.
+- Verification: Terminate any single random server or container; verify zero dropped client transactions.
+- Defense Boundary: Separate physical racks and independent power distribution units (PDUs).`,
+    tokenCount: 152,
+    tags: ["redundancy", "spof-elimination", "high-availability", "distributed-systems", "resilience"],
+    format: "markdown",
+    keylineIcon: "LayersIcon",
+  },
+  {
+    id: "res-002",
+    code: "RES-002",
+    title: "Failover — Switch to Healthy Backup Systems",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "High Availability",
+    summary: "Automated and seamless transition of traffic from an unresponsive primary service to a pre-warmed secondary standby node.",
+    promptText: `## Include: Automated Failover Protocol (RES-002)
+- Strategy: Active-Passive or Active-Active failover with sub-3-second detection threshold.
+- Heartbeat Mechanism: Continuous consensus health pings (etcd / Consul) detecting node unresponsiveness.
+- Split-Brain Defense: Enforce fencing tokens or STONITH (Shoot The Other Node In The Head) to block split-brain writes.
+- DNS / VIP Cutover: Automated virtual IP reassignment or DNS routing failover via health-checked anycast.
+- Recovery Standard: State reconciliation and catch-up replication upon original primary revival.`,
+    tokenCount: 160,
+    tags: ["failover", "active-passive", "split-brain-defense", "fencing-token", "high-availability"],
+    format: "markdown",
+    keylineIcon: "CpuIcon",
+  },
+  {
+    id: "res-003",
+    code: "RES-003",
+    title: "Load Balancing — Distribute Traffic Across Multiple Servers",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Traffic & Routing",
+    summary: "Layer 4 and Layer 7 distribution of inbound requests to prevent node saturation and maintain uniform resource utilization.",
+    promptText: `## Include: Load Balancing Architecture (RES-003)
+- Algorithm: Least Connections with slow-start for new instances; Round Robin fallback for homogenous workloads.
+- Layer 7 Routing: TLS termination, header-based path inspection, and weighted canary distribution.
+- Session Persistence: Stateless JWT authorization preferred; avoid sticky sessions that create uneven load hotspots.
+- Drain Protocol: Graceful connection draining (deregistration delay 30s) before terminating unhealthy nodes.
+- Surge Protection: Queuing threshold on proxy layer to prevent CPU exhaustion on downstream application pools.`,
+    tokenCount: 158,
+    tags: ["load-balancing", "least-connections", "connection-draining", "layer-7", "traffic-distribution"],
+    format: "markdown",
+    keylineIcon: "LayersIcon",
+  },
+  {
+    id: "res-004",
+    code: "RES-004",
+    title: "Health Checks — Detect Unhealthy Services Automatically",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Health & Monitoring",
+    summary: "Continuous dual-probe health monitoring separating internal runtime readiness from deep dependency liveness.",
+    promptText: `## Include: Health Check Specification (RES-004)
+- Liveness Probe (/health/live): Verifies process runtime responsiveness. Fails if event loop or threadpool blocked.
+- Readiness Probe (/health/ready): Verifies connectivity to primary DB, Redis cache, and message queues before routing traffic.
+- Probe Frequency: 5s interval, 2s timeout; 3 consecutive failures to evict; 2 consecutive successes to rejoin.
+- Cascading Hazard: Health checks must NEVER execute slow table scans or heavy SQL queries.
+- Zero-Downtime: Load balancers immediately cease routing requests to instances failing readiness checks.`,
+    tokenCount: 156,
+    tags: ["health-checks", "liveness-probe", "readiness-probe", "fail-fast", "automated-detection"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-005",
+    code: "RES-005",
+    title: "Circuit Breaker — Prevent Repeated Calls to Failing Services",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Failure Isolation",
+    summary: "Three-state state machine (Closed, Open, Half-Open) preventing catastrophic resource exhaustion on failing downstream dependencies.",
+    promptText: `## Include: Circuit Breaker Pattern (RES-005)
+- Closed State: Normal operation; requests pass through while tracking error percentage in rolling 10s window.
+- Open State: If failure rate exceeds 50%, circuit trips OPEN immediately. Subsequent calls return fast-fallback error.
+- Half-Open State: After 30s cooldown, allow single canary request. Success resets to CLOSED; failure trips back to OPEN.
+- Fallback Strategy: Return cached stale payload, static default response, or queue request for background processing.
+- Metrics: Export circuit_breaker_state gauge and tripped_total counters to Prometheus.`,
+    tokenCount: 162,
+    tags: ["circuit-breaker", "hystrix-pattern", "cascading-failure", "fast-fallback", "state-machine"],
+    format: "markdown",
+    keylineIcon: "ShieldIcon",
+  },
+  {
+    id: "res-006",
+    code: "RES-006",
+    title: "Retry Mechanism — Retry Transient Failures Intelligently",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Error Recovery",
+    summary: "Targeted retry policies for transient network drops and 503/429 status codes with strict idempotency verification.",
+    promptText: `## Include: Intelligent Retry Policy (RES-006)
+- Transient Targets: Retry only network resets (ECONNRESET), gateway timeouts (504), and temporary unavailability (503).
+- Non-Retryable Rejections: NEVER retry 400 Bad Request, 401 Unauthorized, 403 Forbidden, or 422 Unprocessable Entity.
+- Idempotency Constraint: Mutating HTTP requests (POST) must supply an Idempotency-Key header before retrying.
+- Max Retries: Strictly limit retries to 3 attempts to prevent resource saturation and retry amplifications.
+- Budgeting: Client-side retry budget capping retry requests under 10% of total outbound call volume.`,
+    tokenCount: 158,
+    tags: ["retry-mechanism", "transient-errors", "retry-budget", "idempotency-key", "fault-recovery"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-007",
+    code: "RES-007",
+    title: "Exponential Backoff — Increase Delays Between Retries",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Traffic Control",
+    summary: "Progressive backoff formula with full random jitter to desynchronize competing clients and prevent thundering herds.",
+    promptText: `## Include: Exponential Backoff & Full Jitter (RES-007)
+- Formula: delay = random(0, min(max_delay, base_delay * 2 ^ attempt)).
+- Base Parameters: base_delay = 100ms, max_delay = 10000ms, multiplier = 2.0.
+- Full Jitter Necessity: Raw exponential backoff causes clients to retry in lockstep; jitter completely breaks synchronization.
+- Server Signal Respect: If response returns Retry-After header, sleep for specified delta instead of calculated delay.
+- Circuit Linkage: If retry attempts exhaust backoff budget without success, trigger circuit breaker trip.`,
+    tokenCount: 155,
+    tags: ["exponential-backoff", "jitter", "thundering-herd", "retry-after", "traffic-smoothing"],
+    format: "markdown",
+    keylineIcon: "SlidersIcon",
+  },
+  {
+    id: "res-008",
+    code: "RES-008",
+    title: "Timeouts — Prevent Requests From Hanging Indefinitely",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Failure Isolation",
+    summary: "Cascading timeout budgets across network hops preventing connection pool exhaustion and orphan thread locks.",
+    promptText: `## Include: Distributed Timeout Budgeting (RES-008)
+- Tiered Timeouts: Connect timeout (1s), read timeout (3s), and end-to-end request timeout (5s).
+- Cascading Deadlines: Propagate deadline context across distributed RPC hops (gRPC grpc-timeout header).
+- Fast Abort: Downstream services immediately abort execution if incoming remaining deadline budget is expired.
+- Database Query Timeout: Enforce statement_timeout on database drivers (e.g. statement_timeout = 2500ms).
+- Resource Reclamation: Aborted requests must promptly release database connections and HTTP sockets back to pool.`,
+    tokenCount: 156,
+    tags: ["timeouts", "deadline-propagation", "connection-pools", "statement-timeout", "resource-reclamation"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-009",
+    code: "RES-009",
+    title: "Bulkheads — Isolate Failures Between System Components",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Failure Isolation",
+    summary: "Physical and logical partitioning of threadpools, memory, and database connections to stop localized failures from collapsing the whole fleet.",
+    promptText: `## Include: Bulkhead Isolation Pattern (RES-009)
+- Analogy: Watertight compartments in a ship hull preventing localized punctures from sinking vessel.
+- Threadpool Bulkheads: Allocate dedicated bounded threadpools per critical downstream dependency (e.g. Payment vs Search).
+- Connection Pool Partitioning: Separate database connection pools for read operations vs mutating write commands.
+- Memory & CPU Isolation: Use container cgroups and Kubernetes resource limits to prevent runaway memory leaks.
+- Blast Radius: Complete failure of non-critical service (e.g. Recommendation Engine) cannot exhaust core auth pools.`,
+    tokenCount: 160,
+    tags: ["bulkheads", "failure-isolation", "threadpool-partitioning", "blast-radius", "cgroups"],
+    format: "markdown",
+    keylineIcon: "ShieldIcon",
+  },
+  {
+    id: "res-010",
+    code: "RES-010",
+    title: "Graceful Degradation — Preserve Essential Functionality During Failures",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Failure Recovery",
+    summary: "Dynamic feature shedding disabling secondary features to guarantee core transaction survivability during outages.",
+    promptText: `## Include: Graceful Degradation Protocol (RES-010)
+- Triage Hierarchy: Tier 1 (Core Checkout/Auth) > Tier 2 (Order History) > Tier 3 (Recommendations/Analytics).
+- Feature Flag Shedding: Automatically toggle feature flags OFF for Tier 3 modules when system load exceeds 85%.
+- Stale Cache Fallback: Serve stale CDN/Redis cached responses with warning header if backend generation fails.
+- Partial Response: Return HTTP 206 Partial Content or structured response with degraded null fields instead of 500 error.
+- UI Messaging: Display clear status indicator: System operating in high-availability degraded mode.`,
+    tokenCount: 158,
+    tags: ["graceful-degradation", "feature-shedding", "triage-hierarchy", "stale-cache", "survivability"],
+    format: "markdown",
+    keylineIcon: "LayersIcon",
+  },
+  {
+    id: "res-011",
+    code: "RES-011",
+    title: "Replication — Maintain Copies of Critical Data",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Data Durability",
+    summary: "Synchronous and asynchronous data mirroring across replica instances to ensure durability and read scalability.",
+    promptText: `## Include: Data Replication Standards (RES-011)
+- Topology: Primary with multiple read replicas distributed across independent availability zones.
+- Sync vs Async: Synchronous replication to at least 1 replica (RPO=0); asynchronous to secondary read pools.
+- Replication Lag Monitoring: Track pg_stat_replication replay_lag; evict replica from read pool if lag > 1000ms.
+- Read-Your-Own-Writes: Direct user to read from primary for 5 seconds after executing state mutations.
+- Consensus Protocols: Raft / Paxos replication for metadata stores (etcd, ZooKeeper) requiring majority quorum.`,
+    tokenCount: 154,
+    tags: ["replication", "read-replicas", "rpo-zero", "replication-lag", "consensus-quorum"],
+    format: "markdown",
+    keylineIcon: "DatabaseIcon",
+  },
+  {
+    id: "res-012",
+    code: "RES-012",
+    title: "Database Backups — Recover Data After Loss or Corruption",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Data Durability",
+    summary: "Automated Point-in-Time Recovery (PITR) pairing daily physical snapshots with continuous Write-Ahead Log (WAL) archiving.",
+    promptText: `## Include: Database Backup & PITR Protocol (RES-012)
+- Continuous Archiving: Stream Write-Ahead Logs (WAL) continuously to encrypted off-site object storage (R2/S3).
+- Full Snapshots: Daily automated storage snapshots taken during off-peak windows with 30-day retention.
+- Recovery Target: Point-in-Time Recovery (PITR) capability to any microsecond within retention window.
+- Encryption: All backups encrypted at rest with AES-256 using dedicated KMS customer-managed keys.
+- Immutability: Enable Object Lock / WORM (Write Once Read Many) on backup buckets to prevent ransomware deletion.`,
+    tokenCount: 155,
+    tags: ["database-backups", "pitr", "wal-archiving", "ransomware-defense", "data-recovery"],
+    format: "markdown",
+    keylineIcon: "DatabaseIcon",
+  },
+  {
+    id: "res-013",
+    code: "RES-013",
+    title: "Disaster Recovery — Restore Services After Major Disruptions",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Disaster Recovery",
+    summary: "Formal Recovery Time Objective (RTO) and Recovery Point Objective (RPO) execution framework for catastrophe survival.",
+    promptText: `## Include: Disaster Recovery Framework (RES-013)
+- Metrics: RTO (Recovery Time Objective <= 15 minutes), RPO (Recovery Point Objective <= 1 minute).
+- Tier Classification: Mission Critical (Pilot Light or Warm Standby) vs Standard (Cold Backup Rebuild).
+- Automated Runbooks: Declarative Infrastructure as Code (Terraform) to spin up complete production cluster in secondary region.
+- DNS Cutover Automation: Automated route changeover via Cloudflare Load Balancing health monitor.
+- Post-Disaster Triage: Integrity verification scripts validating cryptographic checksums of restored databases.`,
+    tokenCount: 152,
+    tags: ["disaster-recovery", "rto", "rpo", "warm-standby", "infrastructure-as-code"],
+    format: "markdown",
+    keylineIcon: "CloudIcon",
+  },
+  {
+    id: "res-014",
+    code: "RES-014",
+    title: "Multi-Availability Zones — Survive Individual Zone Failures",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "High Availability",
+    summary: "Spread nodes, subnets, and databases across at least 3 geographically isolated data centers within a single metropolitan cloud region.",
+    promptText: `## Include: Multi-AZ Deployment Standard (RES-014)
+- Topology: Minimum 3 Availability Zones (AZ-a, AZ-b, AZ-c) with sub-1ms inter-zone fiber latency.
+- Pod Topology Spread: Enforce Kubernetes topologySpreadConstraints spreading pods evenly across zone keys.
+- Storage Redundancy: Multi-AZ RDS / Cloud Spanner with automated synchronous standby failover.
+- Network Partitioning: Independent NAT gateways and route tables per availability zone to prevent cross-zone cascades.
+- Quorum Rule: Ensure loss of entire AZ leaves majority quorum (2 of 3) operational without manual intervention.`,
+    tokenCount: 156,
+    tags: ["multi-az", "availability-zones", "pod-topology-spread", "zone-failure", "fault-tolerance"],
+    format: "markdown",
+    keylineIcon: "CloudIcon",
+  },
+  {
+    id: "res-015",
+    code: "RES-015",
+    title: "Multi-Region Deployment — Maintain Service Availability Across Regions",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "High Availability",
+    summary: "Geographically distributed active-active or active-passive deployments to survive entire continental cloud provider outages.",
+    promptText: `## Include: Multi-Region Architecture (RES-015)
+- Multi-Region Strategy: Primary in us-east with warm standby in us-west (or active-active with localized data sovereignty).
+- Traffic Steering: Anycast global routing (Cloudflare / AWS Route 53 Geolocation) directing traffic to nearest healthy region.
+- Data Sync: Cross-region asynchronous database replication (PostgreSQL logical replication / CockroachDB).
+- Conflict Resolution: Last-Write-Wins (LWW) with synchronized NTP clocks or CRDT (Conflict-Free Replicated Data Types).
+- Blast Radius: Regional failures isolated completely without taking down global authentication endpoints.`,
+    tokenCount: 158,
+    tags: ["multi-region", "geo-redundancy", "active-active", "crdt", "anycast-routing"],
+    format: "markdown",
+    keylineIcon: "CloudIcon",
+  },
+  {
+    id: "res-016",
+    code: "RES-016",
+    title: "Idempotency — Prevent Duplicate Effects During Retries",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Data Consistency",
+    summary: "Mathematical idempotency ensuring that processing a request multiple times produces the identical outcome as processing it once.",
+    promptText: `## Include: Idempotent API Transaction Specification (RES-016)
+- Mandate: Every state-mutating transaction (payments, balance updates, order submission) must accept Idempotency-Key.
+- Atomic Verification: Insert idempotency record in Redis/DB with status PENDING within transaction block.
+- In-Flight Handling: If duplicate key arrives while PENDING, return HTTP 409 Conflict or wait on lock.
+- Cached Result Replay: If duplicate key arrives with status COMPLETED, return cached response body without re-executing logic.
+- Retention: Idempotency records retained for minimum 24 hours with TTL expiration.`,
+    tokenCount: 155,
+    tags: ["idempotency", "idempotency-key", "duplicate-prevention", "payment-safety", "transaction-integrity"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-017",
+    code: "RES-017",
+    title: "Message Queues — Buffer Workloads During Traffic Spikes",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Workload Buffering",
+    summary: "Asynchronous decoupling of publishers and consumers via durable message queues to absorb extreme burst traffic.",
+    promptText: `## Include: Message Queue Buffering Standard (RES-017)
+- Decoupling Rule: Synchronous HTTP requests must offload heavy background operations to durable queues (RabbitMQ/Kafka).
+- Backpressure Defense: Producers write at burst speed; consumers process at sustainable rate without crashing.
+- Persistence: Queue messages written to disk with durability guarantees before returning 202 Accepted.
+- Queue Depth Telemetry: Monitor queue_messages_ready; trigger auto-scaling on consumer worker pool when depth exceeds 1000.
+- Visibility Timeout: Consumer locks message for processing duration; returns to queue if worker dies before ACK.`,
+    tokenCount: 158,
+    tags: ["message-queues", "backpressure", "workload-buffering", "asynchronous-processing", "rabbitmq"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-018",
+    code: "RES-018",
+    title: "Dead Letter Queues — Isolate Messages That Repeatedly Fail",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Failure Isolation",
+    summary: "Poison pill isolation routing unprocessable messages to a dedicated DLQ after retry budget exhaustion to prevent pipeline lockups.",
+    promptText: `## Include: Dead Letter Queue (DLQ) Specification (RES-018)
+- Poison Pill Defense: Malformed payloads causing consumer crashes must not block the entire message queue processing pipeline.
+- Re-Drive Threshold: Message routed to DLQ after exceeding max_delivery_count (typically 5 failed attempts).
+- Error Metadata: Attach x-death headers detailing failure timestamp, exception message, stack trace, and consumer ID.
+- Monitoring Alert: PagerDuty alert triggered immediately when DLQ depth > 0.
+- Re-Drive Tooling: Administrative CLI utility allowing engineers to inspect, fix schema bugs, and replay DLQ messages.`,
+    tokenCount: 156,
+    tags: ["dead-letter-queue", "dlq", "poison-pill", "error-isolation", "message-processing"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-019",
+    code: "RES-019",
+    title: "Rate Limiting — Protect Services From Excessive Traffic",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Traffic Control",
+    summary: "Token bucket and sliding window rate limiting safeguarding downstream databases and CPUs from abuse and surges.",
+    promptText: `## Include: Distributed Rate Limiting Protocol (RES-019)
+- Algorithm: Redis Sliding Window Counter or Token Bucket for accurate multi-node rate tracking.
+- Response Headers: X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset on all API responses.
+- Rejection Protocol: Return HTTP 429 Too Many Requests with explicit Retry-After header.
+- Granularity Tiers: Global IP rate limit (100 req/min) paired with authenticated user/API-key rate limits (1000 req/min).
+- Edge Enforcement: Enforce rate limits at reverse proxy / Cloudflare Edge before traffic hits application containers.`,
+    tokenCount: 154,
+    tags: ["rate-limiting", "token-bucket", "sliding-window", "http-429", "dos-protection"],
+    format: "markdown",
+    keylineIcon: "SlidersIcon",
+  },
+  {
+    id: "res-020",
+    code: "RES-020",
+    title: "Chaos Engineering — Test Resilience Through Controlled Failures",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Resilience Testing",
+    summary: "Proactive injection of real-world infrastructure failures (latency, packet drop, node kill) to verify self-healing mechanics.",
+    promptText: `## Include: Chaos Engineering Testing Framework (RES-020)
+- Principle: Formulate steady-state hypothesis before introducing controlled turbulence in staging and production.
+- Chaos Experiments:
+  1. Latency Injection: Add 500ms artificial delay to database calls; verify circuit breaker trips.
+  2. Node Eviction: Terminate random Kubernetes pods; verify zero dropped client connections.
+  3. Network Blackhole: Block traffic between availability zones; verify multi-AZ failover kicks in.
+- Blast Radius Containment: Automated blast radius abort switch immediately rolling back experiment if SLO breached.
+- Post-Experiment Action: Document failure points and update automated remediation runbooks.`,
+    tokenCount: 160,
+    tags: ["chaos-engineering", "fault-injection", "steady-state", "resilience-testing", "chaos-monkey"],
+    format: "markdown",
+    keylineIcon: "ShieldIcon",
+  },
+  {
+    id: "res-021",
+    code: "RES-021",
+    title: "Observability — Detect Failures Using Logs, Metrics, and Traces",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Observability",
+    summary: "Three pillars of observability (Structured Logs, Golden Signals Metrics, Distributed Tracing) for rapid incident diagnosis.",
+    promptText: `## Include: Distributed Observability Standard (RES-021)
+- The Four Golden Signals: Latency (p50, p95, p99), Traffic (RPS), Errors (5xx error rate), and Saturation (CPU/memory/pool usage).
+- Structured JSON Logging: All log events output in structured JSON with trace_id, span_id, level, and timestamp.
+- Distributed Tracing: OpenTelemetry W3C traceparent header propagation across all microservice boundaries.
+- Error Tracking: High-priority error aggregation with deduplicated stack trace grouping and source map resolution.
+- Alerting Rules: Multi-window multi-burn-rate alerts on Service Level Objectives (SLOs) before customer breach.`,
+    tokenCount: 156,
+    tags: ["observability", "opentelemetry", "golden-signals", "distributed-tracing", "structured-logging"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
+  },
+  {
+    id: "res-022",
+    code: "RES-022",
+    title: "Recovery Testing — Validate Recovery Procedures Regularly",
+    domain: "fault-tolerance",
+    domainLabel: "Fault Tolerance",
+    category: "Resilience Testing",
+    summary: "Routine scheduled drills executing actual database restore, DNS cutover, and failover validation without notice.",
+    promptText: `## Include: Recovery Testing & GameDays (RES-022)
+- Mandate: Unverified backups and recovery runbooks must be assumed non-functional until proven via regular drills.
+- Automated Restore Verification: Weekly automated pipeline restoring latest backup to isolated sandbox; run verification test suite.
+- GameDay Drills: Quarterly simulated catastrophe exercises (e.g. primary region blackhole) executed by on-call engineers.
+- Time Tracking: Measure actual MTTA (Mean Time to Acknowledge) and MTTR (Mean Time to Recovery) against published SLOs.
+- Post-Mortem Standard: Blameless post-mortems required for all drill gaps, producing tracked remediation tickets.`,
+    tokenCount: 158,
+    tags: ["recovery-testing", "gamedays", "mttr", "backup-validation", "blameless-postmortem"],
+    format: "markdown",
+    keylineIcon: "TerminalIcon",
   },
 ];

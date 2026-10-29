@@ -1,5 +1,6 @@
 export type DomainCategory =
   | "ui-components"
+  | "fault-tolerance"
   | "system-architecture"
   | "backend-databases"
   | "cloud-infrastructure"

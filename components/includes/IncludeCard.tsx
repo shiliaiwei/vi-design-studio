@@ -22,6 +22,8 @@ export default function IncludeCard({ item, onInspect }: IncludeCardProps) {
     switch (domain) {
       case "ui-components":
         return "bg-emerald-50 text-vi-emeraldDark border-emerald-200";
+      case "fault-tolerance":
+        return "bg-amber-50 text-amber-800 border-amber-300";
       case "application-security":
       case "ai-safety":
         return "bg-rose-50 text-vi-crimson border-rose-200";
