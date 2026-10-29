@@ -14,6 +14,35 @@ export default function Home() {
       {/* Hero Showcase */}
       <Hero />
 
+      {/* Feature Callout: Includes Library */}
+      <section className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div className="p-6 sm:p-8 bg-white border border-vi-border rounded-glass shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="vi-pill bg-emerald-50 text-vi-emeraldDark border border-emerald-200">
+                NEW FEATURE
+              </span>
+              <span className="text-xs font-mono text-vi-muted">
+                10 DOMAINS / 31 INCLUDES
+              </span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-vi-slate uppercase tracking-tight">
+              System Architecture & UI Includes Library
+            </h3>
+            <p className="mt-1 text-xs sm:text-sm text-vi-muted max-w-2xl leading-relaxed">
+              Explore 31 modular prompt includes covering the 10 core UI components (Snackbar, Bottom Sheet, Dialog, Bottom Nav, Toggle Switch, Chips, FAB, Card, Dropdown, Tooltip) plus distributed systems, databases, security, and AI agents.
+            </p>
+          </div>
+
+          <a
+            href="/includes"
+            className="vi-button-eager px-6 py-3 text-xs sm:text-sm font-mono tracking-wider uppercase font-bold shrink-0"
+          >
+            [ OPEN INCLUDES LIBRARY ]
+          </a>
+        </div>
+      </section>
+
       {/* 8 Closed Color Tokens */}
       <PaletteTokens />
 

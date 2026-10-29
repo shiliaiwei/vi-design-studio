@@ -28,16 +28,22 @@ export default function Hero() {
         {/* Action Buttons */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="#tokens"
-            className="vi-button-primary px-6 py-3 text-sm tracking-wider uppercase"
+            href="/includes"
+            className="vi-button-primary px-6 py-3 text-sm tracking-wider uppercase font-bold"
           >
-            [ EXPLORE CLOSED TOKENS ]
+            [ BROWSE INCLUDES LIBRARY ]
+          </a>
+          <a
+            href="#tokens"
+            className="vi-button-ghost px-6 py-3 text-sm tracking-wider uppercase"
+          >
+            [ CLOSED TOKENS ]
           </a>
           <a
             href="#components"
             className="vi-button-ghost px-6 py-3 text-sm tracking-wider uppercase"
           >
-            [ OPEN COMPONENT LAB ]
+            [ COMPONENT LAB ]
           </a>
         </div>
       </div>
