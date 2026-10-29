@@ -1,5 +1,7 @@
 # vi-design-studio
 
+> **Live Edge Deployment**: [https://vi-design-studio.shiliaiwei.workers.dev](https://vi-design-studio.shiliaiwei.workers.dev)
+
 ស្ទូឌីយោរចនា និងស្តង់ដារប្រព័ន្ធវិស្វកម្ម VI ផ្អែកលើបច្ចេកវិទ្យា Next.js 15, Tailwind CSS និង Cloudflare Workers។
 
 #vi #design-system #liquid-glass #cloudflare-workers #nextjs #tailwind-css #clean-code #zero-emoji
@@ -33,3 +35,8 @@ npm run typecheck
 # Build for Cloudflare Workers
 npm run deploy
 ```
+
+## Live Deployment
+
+* **Edge Gateway URL**: [https://vi-design-studio.shiliaiwei.workers.dev](https://vi-design-studio.shiliaiwei.workers.dev)
+* **GitHub Repository**: [https://github.com/shiliaiwei/vi-design-studio](https://github.com/shiliaiwei/vi-design-studio)
