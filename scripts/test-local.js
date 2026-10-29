@@ -30,6 +30,7 @@ const requiredFiles = [
   'app/globals.css',
   'components/Header.tsx',
   'components/Hero.tsx',
+  'components/OfflinePage.tsx',
   'components/PaletteTokens.tsx',
   'components/ComponentLab.tsx',
   'components/DirectivesList.tsx',
